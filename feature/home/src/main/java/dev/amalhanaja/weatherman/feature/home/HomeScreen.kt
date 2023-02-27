@@ -24,6 +24,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -32,20 +33,26 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.amalhanaja.weatherman.core.designsystem.foundation.WMTheme
-import dev.amalhanaja.weatherman.core.model.City
 import dev.amalhanaja.weatherman.feature.home.section.SearchCityTemplate
 
 @Composable
-fun HomeRoute() {
+fun HomeRoute(
+    homeViewModel: HomeViewModel = hiltViewModel(),
+) {
     val (isCitySelectionActive, setIsCitySelectionActive) = remember { mutableStateOf(false) }
+    val cityListUiState by homeViewModel.cityListUiState.collectAsStateWithLifecycle()
     return HomeScreen(
-        query = "",
-        onQueryChange = {},
-        citiesSectionTitle = "Search results",
-        cities = (1..20).map { City("Name $it", null, "ID", 0.0, 0.0) },
+        query = homeViewModel.searchQuery,
+        onQueryChange = homeViewModel::updateSearchQuery,
+        cityListUiState = cityListUiState,
         isCitySelectionActive = isCitySelectionActive,
-        onCitySelectionActiveChange = setIsCitySelectionActive,
+        onCitySelectionActiveChange = {
+            setIsCitySelectionActive(it)
+            homeViewModel.updateSearchQuery("")
+        },
     )
 }
 
@@ -53,8 +60,7 @@ fun HomeRoute() {
 internal fun HomeScreen(
     query: String,
     onQueryChange: (String) -> Unit,
-    citiesSectionTitle: String,
-    cities: List<City>,
+    cityListUiState: CityListUiState,
     isCitySelectionActive: Boolean,
     onCitySelectionActiveChange: (Boolean) -> Unit,
 ) {
@@ -80,10 +86,9 @@ internal fun HomeScreen(
                     modifier = Modifier.fillMaxWidth(),
                     query = query,
                     onQueryChange = onQueryChange,
-                    listTitle = citiesSectionTitle,
+                    cityListUiState = cityListUiState,
                     active = true,
                     onActiveChange = onCitySelectionActiveChange,
-                    cities = cities,
                 )
             }
             Spacer(modifier = Modifier.height(WMTheme.spacings.xl))

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="text_Favorites">Favorites</string>
+    <string name="text_Search_results">Search results</string>
+    <string name="placeholder_search_city">Type a city name. ex: Jakarta</string>
+</resources>
