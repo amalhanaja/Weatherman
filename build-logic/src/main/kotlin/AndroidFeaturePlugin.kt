@@ -21,7 +21,7 @@ class AndroidFeaturePlugin : Plugin<Project> {
         )
         dependencies {
             api(project(":core:designsystem"))
-            api(project(":core:data"))
+            api(project(":core:model"))
             implementation(libsVersionCatalog.getLibraryProvider("coroutine.core"))
             implementation(libsVersionCatalog.getLibraryProvider("hilt.android"))
             implementation(libsVersionCatalog.getLibraryProvider("hilt.compose.nav"))
