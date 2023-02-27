@@ -1,6 +1,7 @@
 package dev.amalhanaja.weatherman.feature.home
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,6 +24,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
@@ -31,13 +34,27 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.amalhanaja.weatherman.core.designsystem.foundation.WMTheme
+import dev.amalhanaja.weatherman.core.model.City
+import dev.amalhanaja.weatherman.feature.home.section.SearchCityTemplate
 
 @Composable
-internal fun HomeScreen() {
+internal fun HomeScreen(
+    query: String,
+    onQueryChange: (String) -> Unit,
+    citiesSectionTitle: String,
+    cities: List<City>,
+    isCitySelectionActive: Boolean,
+    onCitySelectionActiveChange: (Boolean) -> Unit,
+) {
     Scaffold(
         topBar = {
+            if (isCitySelectionActive) return@Scaffold
             TopAppBar(
-                title = { SelectedLocationComponent() }
+                title = {
+                    SelectedLocationComponent(
+                        modifier = Modifier.clickable { onCitySelectionActiveChange(true) }
+                    )
+                }
             )
         }
     ) { paddingValues ->
@@ -46,6 +63,17 @@ internal fun HomeScreen() {
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
+            if (isCitySelectionActive) {
+                SearchCityTemplate(
+                    modifier = Modifier.fillMaxWidth(),
+                    query = query,
+                    onQueryChange = onQueryChange,
+                    listTitle = citiesSectionTitle,
+                    active = true,
+                    onActiveChange = onCitySelectionActiveChange,
+                    cities = cities,
+                )
+            }
             Spacer(modifier = Modifier.height(WMTheme.spacings.xl))
             Column(
                 modifier = Modifier
@@ -55,7 +83,6 @@ internal fun HomeScreen() {
                 verticalArrangement = Arrangement.Center,
             ) {
                 HeroComponent(modifier = Modifier.fillMaxWidth())
-
             }
             Box(
                 modifier = Modifier
@@ -204,5 +231,13 @@ private fun WeatherCard(
 @Preview
 @Composable
 fun PreviewHomeScreen() {
-    return HomeScreen()
+    val (isCitySelectionActive, setIsCitySelectionActive) = remember { mutableStateOf(false) }
+    return HomeScreen(
+        query = "",
+        onQueryChange = {},
+        citiesSectionTitle = "Search results",
+        cities = (1..20).map { City("Name $it", null, "ID", 0.0, 0.0) },
+        isCitySelectionActive = isCitySelectionActive,
+        onCitySelectionActiveChange = setIsCitySelectionActive,
+    )
 }

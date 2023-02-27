@@ -1,5 +1,6 @@
 package dev.amalhanaja.weatherman.core.designsystem.foundation
 
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
@@ -16,4 +17,9 @@ object WMTheme {
         @Composable
         @ReadOnlyComposable
         get() = LocalSpacings.current
+
+    val colorScheme: ColorScheme
+        @Composable
+        @ReadOnlyComposable
+        get() = MaterialTheme.colorScheme
 }
