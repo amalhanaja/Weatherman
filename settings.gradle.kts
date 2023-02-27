@@ -26,6 +26,7 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Weatherman"
 include(":app")
+include(":core:data")
 include(":core:model")
 include(":core:designsystem")
 include(":feature:home")
