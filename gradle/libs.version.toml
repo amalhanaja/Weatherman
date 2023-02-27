@@ -1,0 +1,166 @@
+[versions]
+# region SDK
+compileSdk = "33"
+minSdk = "26"
+targetSdk = "33"
+# endregion
+
+agp = "7.4.1"
+jacoco = "0.8.8"
+
+# region hilt
+hilt = "2.45"
+hilt-compose-nav = "1.1.0-alpha01"
+# endregion
+
+# region kotlin
+kotlin = "1.8.0"
+ksp = "1.8.0-1.0.9"
+coroutine = "1.6.4"
+kotlinx-datetime = '0.4.0'
+kover = "0.6.1"
+#endregion
+
+# region testing
+mockk = "1.13.4"
+junit = "4.13.2"
+# endregion
+
+lifecycle = '2.6.0-alpha03'
+
+# region androidx
+androidx-core = "1.9.0"
+androidx-junit = "1.1.5"
+androidx-espresso = "3.5.1"
+# endregion
+
+# region compose
+compose-ui = "1.4.0-alpha05"
+compose-compiler = "1.4.0"
+compose-material = "1.4.0-beta02"
+compose-material3 = "1.1.0-alpha05"
+compose-activity = "1.6.1"
+#endregion
+
+# region network
+retrofit = "2.9.0"
+gson = "2.10.1"
+okhttp = "4.10.0"
+# endregion
+
+# region room
+room = "2.5.0"
+# endregion
+
+# region accompanist
+accompanist = "0.29.1-alpha"
+# endregion
+
+# region linter
+ktlint-gradle-plugin = "11.2.0"
+ktlint = "0.48.2"
+# endregion
+
+# region paging3
+paging3 = "3.1.1"
+paging3-compose = "1.0.0-alpha18"
+# endregion
+
+secrets = "2.0.1"
+datastore = '1.0.0'
+
+[libraries]
+# region testing
+junit = { module = "junit:junit", version.ref = "junit" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+# endregion
+
+# region lifecycle
+lifecycle-viewmodel-ktx = { module = "androidx.lifecycle:lifecycle-viewmodel-ktx", version.ref = "lifecycle" }
+lifecycle-viewmodel = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycle" }
+lifecycle-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "lifecycle" }
+# endregion
+
+# region androidx
+androidx-core = { module = "androidx.core:core-ktx", version.ref = "androidx-core" }
+androidx-junit = { module = "androidx.test.ext:junit", version.ref = "androidx-junit" }
+androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-espresso" }
+# endregion
+
+# region kotlin
+coroutine-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutine" }
+coroutine-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutine" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
+# endregion
+
+# region compose
+compose-ui = { module = "androidx.compose.ui:ui", version.ref = "compose-ui" }
+compose-preview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "compose-ui" }
+compose-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "compose-ui" }
+compose-activity = { module = "androidx.activity:activity-compose", version.ref = "compose-activity" }
+compose-material = { module = "androidx.compose.material:material", version.ref = "compose-material" }
+compose-material3 = { module = "androidx.compose.material3:material3", version.ref = "compose-material3" }
+compose-test-junit = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose-ui" }
+compose-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose-ui" }
+# endregion
+
+# region dependency injection
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
+hilt-compose-nav = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-compose-nav" }
+hilt-testing = { module = "com.google.dagger:hilt-android-testing", version.ref = "hilt" }
+# endregion
+
+# region network
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
+retrofit-core = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
+retrofit-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+okhttp-logging = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
+okhttp-mock = { module = "com.squareup.okhttp3:mockwebserver", version.ref = "okhttp" }
+# endregion
+
+# region room
+room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
+room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
+room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
+room-paging3 = { module = "androidx.room:room-paging", version.ref = "room" }
+room-testing = { module = "androidx.room:room-testing", version.ref = "room" }
+# endregion
+
+# region paging
+paging3-runtime = { module = "androidx.paging:paging-runtime", version.ref = "paging3" }
+paging3-common = { module = "androidx.paging:paging-common", version.ref = "paging3" }
+paging3-compose = { module = "androidx.paging:paging-compose", version.ref = "paging3-compose" }
+# endregion
+
+# region datastore
+datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
+datastore-preferences-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "datastore" }
+# endregion
+
+# region build logic dependency
+gradle-plugin-android = { module = "com.android.tools.build:gradle", version.ref = "agp" }
+gradle-plugin-kotlin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+gradle-plugin-ktlint = { module = "org.jlleitschuh.gradle:ktlint-gradle", version.ref = "ktlint-gradle-plugin" }
+# endregion
+
+# region accompanist
+accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanist" }
+# endregion
+
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+java-library = { id = "java-library" }
+android-test = { id = "com.android.test", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
+kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint-gradle-plugin" }
+secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secrets" }
+
+[bundles]
