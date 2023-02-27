@@ -11,4 +11,9 @@ object WMTheme {
         @Composable
         @ReadOnlyComposable
         get() = MaterialTheme.typography
+
+    val spacings: Spacings
+        @Composable
+        @ReadOnlyComposable
+        get() = LocalSpacings.current
 }
