@@ -1,6 +1,6 @@
 package dev.amalhanaja.weatherman.core.model
 
-class DailyWeatherForecast(
+data class DailyWeatherForecast(
     val tempMinMax: Pair<Float, Float>,
     val humidity: Int,
     val windDirectionDegree: Float,

@@ -1,4 +1,5 @@
 import configurator.configureAndroid
+import configurator.configureCompose
 import configurator.configureGradleManagedDevice
 import configurator.configureKotlin
 import helper.applyPlugins
@@ -22,6 +23,7 @@ class AndroidApplicationPlugin : Plugin<Project> {
 
             findCommonExtension()?.apply {
                 configureAndroid(this)
+                configureCompose(this)
                 configureGradleManagedDevice(this)
             }
             configureKotlin()

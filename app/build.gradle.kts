@@ -1,6 +1,6 @@
-@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id("weatherman.android.application")
+    id("weatherman.android.hilt")
 }
 
 fun generateVersionCode(minSdk: Int, major: Int, minor: Int, patch: Int): Int {
@@ -47,7 +47,8 @@ android {
 }
 
 dependencies {
-
+    implementation(project(":core:designsystem"))
+    implementation(project(":feature:home"))
     implementation(libs.androidx.core)
     implementation(libs.lifecycle.compose)
     implementation(libs.compose.activity)

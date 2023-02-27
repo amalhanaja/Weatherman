@@ -31,11 +31,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.amalhanaja.weatherman.core.designsystem.foundation.WMTheme
 import dev.amalhanaja.weatherman.core.model.City
 import dev.amalhanaja.weatherman.feature.home.section.SearchCityTemplate
+
+@Composable
+fun HomeRoute() {
+    val (isCitySelectionActive, setIsCitySelectionActive) = remember { mutableStateOf(false) }
+    return HomeScreen(
+        query = "",
+        onQueryChange = {},
+        citiesSectionTitle = "Search results",
+        cities = (1..20).map { City("Name $it", null, "ID", 0.0, 0.0) },
+        isCitySelectionActive = isCitySelectionActive,
+        onCitySelectionActiveChange = setIsCitySelectionActive,
+    )
+}
 
 @Composable
 internal fun HomeScreen(
@@ -226,18 +238,4 @@ private fun WeatherCard(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun PreviewHomeScreen() {
-    val (isCitySelectionActive, setIsCitySelectionActive) = remember { mutableStateOf(false) }
-    return HomeScreen(
-        query = "",
-        onQueryChange = {},
-        citiesSectionTitle = "Search results",
-        cities = (1..20).map { City("Name $it", null, "ID", 0.0, 0.0) },
-        isCitySelectionActive = isCitySelectionActive,
-        onCitySelectionActiveChange = setIsCitySelectionActive,
-    )
 }
