@@ -18,7 +18,7 @@ interface WeatherForecastApiService {
     @GET("data/2.5/forecast?units=metric")
     suspend fun forecast(
         @Query("lat") latitude: Double,
-        @Query("longitude") longitude: Double,
+        @Query("lon") longitude: Double,
     ): ForecastResponse
 }
 

@@ -2,6 +2,7 @@ package dev.amalhanaja.weatherman.feature.home.section
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -38,6 +39,7 @@ internal fun SearchCityTemplate(
     onActiveChange: (Boolean) -> Unit,
     onFavoriteChange: (City, Boolean) -> Unit,
     onRetry: () -> Unit,
+    onSelect: (City) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     SearchBar(
@@ -61,6 +63,10 @@ internal fun SearchCityTemplate(
                 is CityListUiState.WithData -> selectableCityList(
                     data = cityListUiState,
                     onFavoriteChange = onFavoriteChange,
+                    onSelect = {
+                        onSelect(it)
+                        onActiveChange(false)
+                    },
                 )
                 is CityListUiState.Empty -> item { Message(title = stringResource(R.string.message_no_favorites)) }
                 is CityListUiState.NotFound -> item { Message(title = stringResource(id = R.string.message_search_not_found)) }
@@ -93,6 +99,7 @@ private fun Message(title: String) {
 private fun LazyListScope.selectableCityList(
     data: CityListUiState.WithData,
     onFavoriteChange: (City, Boolean) -> Unit,
+    onSelect: (City) -> Unit,
 ) {
     stickyHeader {
         Text(
@@ -108,7 +115,10 @@ private fun LazyListScope.selectableCityList(
         )
     }
     items(data.citiesWithFavorite) { (city, isFavorite) ->
-        CityItemComponent(city = city) {
+        CityItemComponent(
+            city = city,
+            modifier = Modifier.clickable { onSelect(city) }
+        ) {
             IconButton(
                 onClick = { onFavoriteChange(city, !isFavorite) }
             ) {
@@ -124,11 +134,12 @@ private fun LazyListScope.selectableCityList(
 @Composable
 private fun CityItemComponent(
     city: City,
+    modifier: Modifier = Modifier,
     trailingContent: (@Composable () -> Unit)? = null,
 ) {
     val displayableCity = listOf(city.name, city.state, city.country).filter(String::isNotBlank).joinToString()
     ListItem(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         headlineText = { Text(text = displayableCity) },
         trailingContent = trailingContent,
     )

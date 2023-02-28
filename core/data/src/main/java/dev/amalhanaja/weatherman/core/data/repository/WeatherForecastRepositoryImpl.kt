@@ -42,7 +42,9 @@ class WeatherForecastRepositoryImpl @Inject constructor(
                 humidity = humidityTotal.div(listCount),
                 date = date,
                 windDirectionDegree = windDirectionDegreeTotal.div(listCount),
-                windSpeed = windSpeedTotal.div(listCount)
+                windSpeed = windSpeedTotal.div(listCount),
+                name = list.first().weather.first().main,
+                iconId = list.first().weather.first().icon,
             )
         }.take(3)
         emit(weathers)

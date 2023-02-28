@@ -8,4 +8,6 @@ data class Weather(
     val windDirectionDegree: Int,
     val windSpeed: Float,
     val date: LocalDate,
+    val name: String,
+    val iconId: String,
 )

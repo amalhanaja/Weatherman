@@ -14,12 +14,21 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
 
+val DefaultCity = City(
+    name = "Sidoarjo",
+    state = "East Java",
+    latitude = -7.4460408,
+    longitude = 112.7178614,
+    country = "ID"
+)
+
 class CityRepositoryImpl @Inject constructor(
     @DataDispatcher private val coroutineContext: CoroutineContext,
     private val cityNetworkDataSource: CityNetworkDataSource,
     private val userPreferencesDataSource: UserPreferencesDataSource,
     private val favoriteCityDao: FavoriteCityDao,
 ) : CityRepository {
+
     override fun getFavoriteCities(): Flow<List<City>> = favoriteCityDao.getFavoriteCities().map { cities -> cities.map { it.toCity() } }
 
     override suspend fun addToFavorite(city: City) {
@@ -31,7 +40,7 @@ class CityRepositoryImpl @Inject constructor(
     }
 
     override fun searchCities(query: String): Flow<List<City>> = flow {
-        if(query.isNotBlank()) {
+        if (query.isNotBlank()) {
             val response = cityNetworkDataSource.searchCity(query)
             val cities = response.map { it.toCity() }
             emit(cities)
@@ -41,14 +50,7 @@ class CityRepositoryImpl @Inject constructor(
     }.flowOn(coroutineContext)
 
     override fun getCurrentCity(): Flow<City> {
-        val defaultCity = City(
-            name = "Sidoarjo",
-            state = "East Java",
-            latitude = -7.4460408,
-            longitude = 112.7178614,
-            country = "ID"
-        )
-        return userPreferencesDataSource.getSelectedCity().map { it ?: defaultCity }
+        return userPreferencesDataSource.getSelectedCity().map { it ?: DefaultCity }
             .flowOn(coroutineContext)
     }
 

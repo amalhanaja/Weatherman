@@ -5,4 +5,6 @@
     <string name="placeholder_search_city">Type a city name. ex: Jakarta</string>
     <string name="message_no_favorites">No favorite cites, please search for a city instead</string>
     <string name="message_search_not_found">Sorry, no results were found for your search. Please try again with a different city name.</string>
+    <string name="label_windspeed">Wind Speed :</string>
+    <string name="label_humidity">Humidity :</string>
 </resources>
