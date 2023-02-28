@@ -3,6 +3,8 @@ package dev.amalhanaja.weatherman.core.network.api
 import com.google.gson.Gson
 import dev.amalhanaja.weatherman.core.network.CityNetworkDataSource
 import dev.amalhanaja.weatherman.core.network.response.CityResponse
+import dev.amalhanaja.weatherman.core.network.response.ForecastResponse
+import dev.amalhanaja.weatherman.core.network.response.WeatherConditionResponse
 import okhttp3.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -20,6 +22,12 @@ interface CityApiService {
         @Query("q") query: String,
         @Query("limit") limit: Int,
     ): List<CityResponse>
+
+    @GET("data/2.5/forecast?units=metric")
+    suspend fun forecast(
+        @Query("lat") latitude: Double,
+        @Query("longitude") longitude: Double,
+    ): ForecastResponse
 }
 
 @Singleton
@@ -37,8 +45,11 @@ class CityApiClient @Inject constructor(
             .create()
     }
 
-
     override suspend fun searchCity(query: String): List<CityResponse> {
         return service.searchCity(query, DEFAULT_LIMIT)
+    }
+
+    override suspend fun getForecastData(latitude: Double, longitude: Double): List<WeatherConditionResponse> {
+        return service.forecast(latitude, longitude).list
     }
 }
