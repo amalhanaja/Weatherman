@@ -10,12 +10,16 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.amalhanaja.weatherman.core.data.repository.CityRepository
 import dev.amalhanaja.weatherman.core.model.City
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,27 +30,34 @@ class HomeViewModel @Inject constructor(
     var searchQuery by mutableStateOf("")
         private set
 
-    val cityListUiState: StateFlow<CityListUiState> = snapshotFlow { searchQuery }
-        .flatMapLatest { q ->
-            val isGetFromFavorite = q.isBlank()
-            val citiesFlow = if (isGetFromFavorite) getFavoriteCities() else searchCities(q)
-            citiesFlow.map { cities ->
-                when {
-                    cities.isEmpty() && isGetFromFavorite -> CityListUiState.Empty
-                    cities.isEmpty() -> CityListUiState.NotFound
-                    else -> CityListUiState.WithData(isGetFromFavorite, cities)
-                }
-            }
-        }.catch { emit(CityListUiState.Failed(it.message.orEmpty())) }
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(),
-            initialValue = CityListUiState.Empty,
-        )
+    private val _cityListUiState: MutableStateFlow<CityListUiState> = MutableStateFlow(CityListUiState.Empty)
+    val cityListUiState: StateFlow<CityListUiState> = _cityListUiState
+    fun retrySearch() {
+        searchFlow(searchQuery)
+            .onEach { _cityListUiState.value = it }
+            .launchIn(viewModelScope)
+    }
 
     fun updateSearchQuery(query: String) {
         searchQuery = query
+        snapshotFlow { searchQuery }
+            .flatMapLatest { q -> searchFlow(q) }
+            .onEach { _cityListUiState.value = it }
+            .launchIn(viewModelScope)
     }
+
+    private fun searchFlow(query: String): Flow<CityListUiState> {
+        val isGetFromFavorite = query.isBlank()
+        val citiesFlow = if (isGetFromFavorite) getFavoriteCities() else searchCities(query)
+        return citiesFlow.map { cities ->
+            when {
+                cities.isEmpty() && isGetFromFavorite -> CityListUiState.Empty
+                cities.isEmpty() -> CityListUiState.NotFound
+                else -> CityListUiState.WithData(isGetFromFavorite, cities)
+            }
+        }.catch { emit(CityListUiState.Failed(it.message.orEmpty())) }
+    }
+
     private fun getFavoriteCities(): Flow<List<City>> = cityRepository.getFavoriteCities()
 
     private fun searchCities(query: String): Flow<List<City>> = cityRepository.searchCities(query)

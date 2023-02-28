@@ -3,4 +3,6 @@
     <string name="text_Favorites">Favorites</string>
     <string name="text_Search_results">Search results</string>
     <string name="placeholder_search_city">Type a city name. ex: Jakarta</string>
+    <string name="message_no_favorites">No favorite cites, please search for a city instead</string>
+    <string name="message_search_not_found">Sorry, no results were found for your search. Please try again with a different city name.</string>
 </resources>

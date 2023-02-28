@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="title_error_general">Oops, something went wrong!</string>
+    <string name="action_try_again">Try again</string>
+    <string name="message_error_general">We\'re sorry, but an unexpected error has occurred. Please try again later.</string>
+</resources>

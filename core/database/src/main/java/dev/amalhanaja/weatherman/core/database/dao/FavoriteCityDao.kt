@@ -12,7 +12,7 @@ interface FavoriteCityDao {
     @Insert
     suspend fun insert(city: FavoriteCity)
 
-    @Query("SELECT * FROM favorite_cites")
+    @Query("SELECT * FROM favorite_cities")
     suspend fun getFavoriteCities(): List<FavoriteCity>
 
     @Delete

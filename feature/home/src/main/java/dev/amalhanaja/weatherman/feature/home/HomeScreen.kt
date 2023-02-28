@@ -53,6 +53,7 @@ fun HomeRoute(
             setIsCitySelectionActive(it)
             homeViewModel.updateSearchQuery("")
         },
+        onRetryCityList = homeViewModel::retrySearch,
     )
 }
 
@@ -61,6 +62,7 @@ internal fun HomeScreen(
     query: String,
     onQueryChange: (String) -> Unit,
     cityListUiState: CityListUiState,
+    onRetryCityList: () -> Unit,
     isCitySelectionActive: Boolean,
     onCitySelectionActiveChange: (Boolean) -> Unit,
 ) {
@@ -89,6 +91,7 @@ internal fun HomeScreen(
                     cityListUiState = cityListUiState,
                     active = true,
                     onActiveChange = onCitySelectionActiveChange,
+                    onRetry = onRetryCityList,
                 )
             }
             Spacer(modifier = Modifier.height(WMTheme.spacings.xl))
