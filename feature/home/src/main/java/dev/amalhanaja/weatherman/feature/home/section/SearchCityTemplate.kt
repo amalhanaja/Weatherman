@@ -77,7 +77,7 @@ private fun CityItemComponent(
     city: City,
     trailingContent: (@Composable () -> Unit)? = null,
 ) {
-    val displayableCity = with(city) { "${localName ?: name}, $country" }
+    val displayableCity = listOf(city.name, city.state, city.country).filter(String::isNotBlank).joinToString()
     ListItem(
         modifier = Modifier.fillMaxWidth(),
         headlineText = { Text(text = displayableCity) },

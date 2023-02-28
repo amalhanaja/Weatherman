@@ -6,6 +6,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.amalhanaja.weatherman.core.network.BuildConfig
 import dev.amalhanaja.weatherman.core.network.CityNetworkDataSource
 import dev.amalhanaja.weatherman.core.network.api.CityApiClient
 import okhttp3.Call
@@ -35,7 +36,18 @@ class NetworkModule {
     @Singleton
     fun provideOkHttpCallFactory(): Call.Factory {
         return OkHttpClient.Builder()
-            .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+            .addInterceptor(
+                HttpLoggingInterceptor().setLevel(
+                    if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY
+                    else HttpLoggingInterceptor.Level.NONE
+                )
+            )
+            .addInterceptor { chain ->
+                val newUrl = chain.request().url.newBuilder()
+                    .addQueryParameter("appid", BuildConfig.OPEN_WEATHER_API_KEY)
+                    .build()
+                chain.proceed(request = chain.request().newBuilder().url(newUrl).build())
+            }
             .build()
     }
 }

@@ -1,5 +1,6 @@
 plugins {
     id("weatherman.android.library")
+    id("weatherman.android.hilt")
 }
 
 android {
@@ -8,5 +9,6 @@ android {
 
 dependencies {
     implementation(project(":core:model"))
+    implementation(project(":core:network"))
     implementation(libs.coroutine.core)
 }

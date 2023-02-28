@@ -15,7 +15,7 @@ import javax.inject.Singleton
 const val DEFAULT_LIMIT = 5
 
 interface CityApiService {
-    @GET("/geo/1.0/direct")
+    @GET("geo/1.0/direct")
     suspend fun searchCity(
         @Query("q") query: String,
         @Query("limit") limit: Int,

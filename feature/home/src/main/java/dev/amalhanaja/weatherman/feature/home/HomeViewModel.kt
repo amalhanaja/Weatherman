@@ -7,6 +7,7 @@ import androidx.compose.runtime.snapshotFlow
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.amalhanaja.weatherman.core.data.repository.CityRepository
 import dev.amalhanaja.weatherman.core.model.City
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
@@ -19,7 +20,9 @@ import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor() : ViewModel() {
+class HomeViewModel @Inject constructor(
+    private val cityRepository: CityRepository,
+) : ViewModel() {
 
     var searchQuery by mutableStateOf("")
         private set
@@ -41,11 +44,11 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     }
 
     private fun getFavoriteCities(): Flow<List<City>> {
-        return flowOf((1..4).map { City("Name $it", null, "ID", 0.0, 0.0) })
+        return flowOf((1..4).map { City("Name $it", "", "ID", 0.0, 0.0) })
     }
 
     private fun searchCities(query: String): Flow<List<City>> {
-        return flowOf((1..20).map { City("Name $query $it", null, "ID", 0.0, 0.0) })
+        return cityRepository.searchCities(query)
     }
 
 }

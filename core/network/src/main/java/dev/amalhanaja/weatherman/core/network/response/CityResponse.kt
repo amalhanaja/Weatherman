@@ -19,6 +19,6 @@ data class CityResponse(
     val country: String = "",
 
     @SerializedName("state")
-    val state: String? = null,
+    val state: String = "",
 
 )
