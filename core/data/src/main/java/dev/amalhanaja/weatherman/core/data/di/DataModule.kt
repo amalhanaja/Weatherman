@@ -7,6 +7,8 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.amalhanaja.weatherman.core.data.repository.CityRepository
 import dev.amalhanaja.weatherman.core.data.repository.CityRepositoryImpl
+import dev.amalhanaja.weatherman.core.data.repository.WeatherForecastRepository
+import dev.amalhanaja.weatherman.core.data.repository.WeatherForecastRepositoryImpl
 import kotlinx.coroutines.Dispatchers
 import javax.inject.Singleton
 import kotlin.coroutines.CoroutineContext
@@ -21,6 +23,9 @@ class DataModule {
 
         @Binds
         fun bindsCityRepository(cityRepositoryImpl: CityRepositoryImpl): CityRepository
+
+        @Binds
+        fun bindWeatherForecastRepository(weatherForecastRepository: WeatherForecastRepositoryImpl): WeatherForecastRepository
     }
 
     @Provides

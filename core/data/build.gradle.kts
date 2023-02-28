@@ -13,4 +13,5 @@ dependencies {
     implementation(project(":core:datastore"))
     implementation(project(":core:network"))
     implementation(libs.coroutine.core)
+    implementation(libs.kotlinx.datetime)
 }

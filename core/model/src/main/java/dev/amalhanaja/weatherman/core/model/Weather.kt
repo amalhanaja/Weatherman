@@ -1,9 +1,11 @@
 package dev.amalhanaja.weatherman.core.model
 
-data class DailyWeatherForecast(
+import kotlinx.datetime.LocalDate
+
+data class Weather(
     val tempMinMax: Pair<Float, Float>,
     val humidity: Int,
-    val windDirectionDegree: Float,
+    val windDirectionDegree: Int,
     val windSpeed: Float,
-    val dateTimeInMillis: Long,
+    val date: LocalDate,
 )

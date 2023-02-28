@@ -8,7 +8,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.amalhanaja.weatherman.core.network.BuildConfig
 import dev.amalhanaja.weatherman.core.network.CityNetworkDataSource
+import dev.amalhanaja.weatherman.core.network.WeatherForecastNetworkDataSource
 import dev.amalhanaja.weatherman.core.network.api.CityApiClient
+import dev.amalhanaja.weatherman.core.network.api.WeatherForecastApiClient
 import okhttp3.Call
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -24,6 +26,9 @@ class NetworkModule {
 
         @Binds
         fun bindsCityApiClientToCityNetworkDataSource(cityApiClient: CityApiClient): CityNetworkDataSource
+
+        @Binds
+        fun bindsWeatherForecastApiClient(weatherForecastApiClient: WeatherForecastApiClient): WeatherForecastNetworkDataSource
     }
 
     @Provides

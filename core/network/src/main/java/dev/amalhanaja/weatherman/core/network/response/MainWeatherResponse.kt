@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 
 data class MainWeatherResponse(
     @SerializedName("feels_like")
-    val feelsLike: Double,
+    val feelsLike: Float,
     @SerializedName("grnd_level")
     val grndLevel: Int,
     @SerializedName("humidity")
@@ -15,11 +15,11 @@ data class MainWeatherResponse(
     @SerializedName("sea_level")
     val seaLevel: Int,
     @SerializedName("temp")
-    val temp: Double,
+    val temp: Float,
     @SerializedName("temp_kf")
     val tempKf: Double,
     @SerializedName("temp_max")
-    val tempMax: Double,
+    val tempMax: Float,
     @SerializedName("temp_min")
-    val tempMin: Double
+    val tempMin: Float
 )
