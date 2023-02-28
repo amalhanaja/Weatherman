@@ -1,8 +1,5 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":core:network")
-
-
 pluginManagement {
     includeBuild("build-logic")
     repositories {
@@ -29,6 +26,8 @@ dependencyResolutionManagement {
 }
 rootProject.name = "Weatherman"
 include(":app")
+include(":core:datastore")
+include(":core:network")
 include(":core:data")
 include(":core:model")
 include(":core:designsystem")
