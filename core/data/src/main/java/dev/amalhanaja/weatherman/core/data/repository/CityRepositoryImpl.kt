@@ -2,6 +2,8 @@ package dev.amalhanaja.weatherman.core.data.repository
 
 import dev.amalhanaja.weatherman.core.data.di.DataDispatcher
 import dev.amalhanaja.weatherman.core.data.mapper.toCity
+import dev.amalhanaja.weatherman.core.data.mapper.toFavoriteCity
+import dev.amalhanaja.weatherman.core.database.dao.FavoriteCityDao
 import dev.amalhanaja.weatherman.core.datastore.UserPreferencesDataSource
 import dev.amalhanaja.weatherman.core.model.City
 import dev.amalhanaja.weatherman.core.network.CityNetworkDataSource
@@ -16,17 +18,19 @@ class CityRepositoryImpl @Inject constructor(
     @DataDispatcher private val coroutineContext: CoroutineContext,
     private val cityNetworkDataSource: CityNetworkDataSource,
     private val userPreferencesDataSource: UserPreferencesDataSource,
+    private val favoriteCityDao: FavoriteCityDao,
 ) : CityRepository {
-    override fun getFavoriteCities(): Flow<List<City>> {
-        TODO("Not yet implemented")
+    override fun getFavoriteCities(): Flow<List<City>> = flow {
+        val favoriteCities = favoriteCityDao.getFavoriteCities().map { it.toCity() }
+        emit(favoriteCities)
     }
 
     override suspend fun addToFavorite(city: City) {
-        TODO("Not yet implemented")
+        return favoriteCityDao.insert(city.toFavoriteCity())
     }
 
     override suspend fun removeFromFavorite(city: City) {
-        TODO("Not yet implemented")
+        favoriteCityDao.delete(city.toFavoriteCity())
     }
 
     override fun searchCities(query: String): Flow<List<City>> = flow {

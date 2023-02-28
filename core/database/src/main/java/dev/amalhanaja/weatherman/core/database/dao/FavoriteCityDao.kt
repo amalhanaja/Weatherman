@@ -1,6 +1,7 @@
 package dev.amalhanaja.weatherman.core.database.dao
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import dev.amalhanaja.weatherman.core.database.entity.FavoriteCity
@@ -13,4 +14,7 @@ interface FavoriteCityDao {
 
     @Query("SELECT * FROM favorite_cites")
     suspend fun getFavoriteCities(): List<FavoriteCity>
+
+    @Delete
+    suspend fun delete(city: FavoriteCity)
 }
