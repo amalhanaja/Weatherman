@@ -11,15 +11,14 @@ import dev.amalhanaja.weatherman.core.data.repository.CityRepository
 import dev.amalhanaja.weatherman.core.model.City
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -46,10 +45,26 @@ class HomeViewModel @Inject constructor(
             .launchIn(viewModelScope)
     }
 
+    fun onFavoriteCityChange(city: City, isFavorite: Boolean) {
+        viewModelScope.launch {
+            when {
+                isFavorite -> cityRepository.addToFavorite(city)
+                else -> cityRepository.removeFromFavorite(city)
+            }
+        }
+    }
+
     private fun searchFlow(query: String): Flow<CityListUiState> {
         val isGetFromFavorite = query.isBlank()
-        val citiesFlow = if (isGetFromFavorite) getFavoriteCities() else searchCities(query)
-        return citiesFlow.map { cities ->
+        val citiesFlowWithFavorite = combine(getFavoriteCities(), searchCities(query)) { favorites, searchResults ->
+            when {
+                isGetFromFavorite -> favorites.map { city -> city to true }
+                else -> searchResults.map { city ->
+                    city to favorites.any { fav -> fav.latitude == city.latitude && fav.longitude == city.longitude }
+                }
+            }
+        }
+        return citiesFlowWithFavorite.map { cities ->
             when {
                 cities.isEmpty() && isGetFromFavorite -> CityListUiState.Empty
                 cities.isEmpty() -> CityListUiState.NotFound

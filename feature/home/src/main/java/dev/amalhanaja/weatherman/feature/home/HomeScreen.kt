@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dev.amalhanaja.weatherman.core.designsystem.foundation.WMTheme
+import dev.amalhanaja.weatherman.core.model.City
 import dev.amalhanaja.weatherman.feature.home.section.SearchCityTemplate
 
 @Composable
@@ -51,9 +52,11 @@ fun HomeRoute(
         isCitySelectionActive = isCitySelectionActive,
         onCitySelectionActiveChange = {
             setIsCitySelectionActive(it)
+            if (it) return@HomeScreen
             homeViewModel.updateSearchQuery("")
         },
         onRetryCityList = homeViewModel::retrySearch,
+        onCityFavoriteChange = homeViewModel::onFavoriteCityChange
     )
 }
 
@@ -63,6 +66,7 @@ internal fun HomeScreen(
     onQueryChange: (String) -> Unit,
     cityListUiState: CityListUiState,
     onRetryCityList: () -> Unit,
+    onCityFavoriteChange: (City, Boolean) -> Unit,
     isCitySelectionActive: Boolean,
     onCitySelectionActiveChange: (Boolean) -> Unit,
 ) {
@@ -92,6 +96,7 @@ internal fun HomeScreen(
                     active = true,
                     onActiveChange = onCitySelectionActiveChange,
                     onRetry = onRetryCityList,
+                    onFavoriteChange = onCityFavoriteChange,
                 )
             }
             Spacer(modifier = Modifier.height(WMTheme.spacings.xl))

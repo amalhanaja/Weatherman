@@ -9,7 +9,9 @@ import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.ListItem
@@ -34,6 +36,7 @@ internal fun SearchCityTemplate(
     cityListUiState: CityListUiState,
     active: Boolean,
     onActiveChange: (Boolean) -> Unit,
+    onFavoriteChange: (City, Boolean) -> Unit,
     onRetry: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -55,7 +58,10 @@ internal fun SearchCityTemplate(
     ) {
         LazyColumn() {
             when (cityListUiState) {
-                is CityListUiState.WithData -> selectableCityList(data = cityListUiState)
+                is CityListUiState.WithData -> selectableCityList(
+                    data = cityListUiState,
+                    onFavoriteChange = onFavoriteChange,
+                )
                 is CityListUiState.Empty -> item { Message(title = stringResource(R.string.message_no_favorites)) }
                 is CityListUiState.NotFound -> item { Message(title = stringResource(id = R.string.message_search_not_found)) }
                 is CityListUiState.Failed -> item {
@@ -84,7 +90,10 @@ private fun Message(title: String) {
     )
 }
 
-private fun LazyListScope.selectableCityList(data: CityListUiState.WithData) {
+private fun LazyListScope.selectableCityList(
+    data: CityListUiState.WithData,
+    onFavoriteChange: (City, Boolean) -> Unit,
+) {
     stickyHeader {
         Text(
             text = when {
@@ -98,7 +107,18 @@ private fun LazyListScope.selectableCityList(data: CityListUiState.WithData) {
             style = WMTheme.typography.titleLarge,
         )
     }
-    items(data.cities) { city -> CityItemComponent(city = city) }
+    items(data.citiesWithFavorite) { (city, isFavorite) ->
+        CityItemComponent(city = city) {
+            IconButton(
+                onClick = { onFavoriteChange(city, !isFavorite) }
+            ) {
+                Icon(
+                    imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                    contentDescription = city.name,
+                )
+            }
+        }
+    }
 }
 
 @Composable

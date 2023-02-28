@@ -6,5 +6,5 @@ sealed interface CityListUiState {
     object Empty : CityListUiState
     object NotFound : CityListUiState
     data class Failed(val message: String) : CityListUiState
-    data class WithData(val isFavoriteList: Boolean, val cities: List<City>) : CityListUiState
+    data class WithData(val isFavoriteList: Boolean, val citiesWithFavorite: List<Pair<City, Boolean>>) : CityListUiState
 }

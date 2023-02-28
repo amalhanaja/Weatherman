@@ -20,10 +20,7 @@ class CityRepositoryImpl @Inject constructor(
     private val userPreferencesDataSource: UserPreferencesDataSource,
     private val favoriteCityDao: FavoriteCityDao,
 ) : CityRepository {
-    override fun getFavoriteCities(): Flow<List<City>> = flow {
-        val favoriteCities = favoriteCityDao.getFavoriteCities().map { it.toCity() }
-        emit(favoriteCities)
-    }
+    override fun getFavoriteCities(): Flow<List<City>> = favoriteCityDao.getFavoriteCities().map { cities -> cities.map { it.toCity() } }
 
     override suspend fun addToFavorite(city: City) {
         return favoriteCityDao.insert(city.toFavoriteCity())
@@ -34,9 +31,13 @@ class CityRepositoryImpl @Inject constructor(
     }
 
     override fun searchCities(query: String): Flow<List<City>> = flow {
-        val response = cityNetworkDataSource.searchCity(query)
-        val cities = response.map { it.toCity() }
-        emit(cities)
+        if(query.isNotBlank()) {
+            val response = cityNetworkDataSource.searchCity(query)
+            val cities = response.map { it.toCity() }
+            emit(cities)
+        } else {
+            emit(emptyList())
+        }
     }.flowOn(coroutineContext)
 
     override fun getCurrentCity(): Flow<City> {
