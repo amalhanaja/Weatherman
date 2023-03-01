@@ -5,12 +5,37 @@
 1. Clone this repository
 
 2. Add secrets to your `local.properties`
+   
    ```
    OPEN_WEATHER_API_KEY="YOUR_SECRET_KEY"  
    OPEN_WEATHER_BASE_URL="https://api.openweathermap.org/"
    ```
 
-3. 
+## Prerequisites
+
+- Android Studio Electric Eel | 2022.1.1 Patch 1
+- Min SDK 26
+- Target SDK 33
+- AGP 7.4.1
+- Java 11
+- Kotlin 1.8.0
+
+## Libraries
+
+- [Kotlin](https://kotlinlang.org/) based, [Coroutines](https://github.com/Kotlin/kotlinx.coroutines) + [Flow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/) for asynchronous.
+
+- Jetpack
+  - Lifecycle: Observe Android lifecycles and handle UI states upon the lifecycle changes.
+  - ViewModel: Manages UI-related data holder and lifecycle aware. Allows data to survive configuration changes such as screen rotations.
+  - DataBinding: Binds UI components in your app using a declarative format rather than programmatically.
+  - Room: Constructs Database by providing an abstraction layer over SQLite to allow fluent database access.
+  - [Hilt](https://dagger.dev/hilt/): for dependency injection.
+- [Retrofit2 & OkHttp3](https://github.com/square/retrofit): Construct the REST APIs
+- Gson:  JSON library for Kotlin and Java.
+- [ksp](https://github.com/google/ksp): Kotlin Symbol Processing API.
+- Material3 and Material: Basic building blocks for building UI
+- Kotlinx Datetime: Provide date time object
+- Secrets plugins: to store secret information like BASE_URL and API_KEY
 
 ## Modularization
 
