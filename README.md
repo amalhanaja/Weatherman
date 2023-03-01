@@ -27,7 +27,7 @@
 - Jetpack
   - Lifecycle: Observe Android lifecycles and handle UI states upon the lifecycle changes.
   - ViewModel: Manages UI-related data holder and lifecycle aware. Allows data to survive configuration changes such as screen rotations.
-  - DataBinding: Binds UI components in your app using a declarative format rather than programmatically.
+  - Compose: Binds UI components in your app using a declarative format rather than programmatically.
   - Room: Constructs Database by providing an abstraction layer over SQLite to allow fluent database access.
   - [Hilt](https://dagger.dev/hilt/): for dependency injection.
 - [Retrofit2 & OkHttp3](https://github.com/square/retrofit): Construct the REST APIs
